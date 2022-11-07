@@ -1,0 +1,38 @@
+tasks:
+  - name: Install Miniconda
+    before: |
+      mkdir -p ~/.jupyter/
+      cp jupyter_lab_config.py ~/.jupyter/
+    init: |
+      curl https://repo.anaconda.com/miniconda/Miniconda3-py39_4.12.0-Linux-x86_64.sh -o ~/miniconda.sh
+      bash ~/miniconda.sh -b -p miniconda
+      miniconda/bin/pip install -r requirements.txt
+      miniconda/bin/pip install pytest
+      miniconda/bin/pip install jupyterlab jupyterlab-link-share jupyterlab-git
+    command: |
+      miniconda/bin/conda init > /dev/null
+      exec bash
+    
+github:
+  prebuilds:
+    branches: true
+
+ports:
+  - name: Jupyter Lab
+    description: The Default Jupyter Server Port
+    port: 8888-8891
+    visibility: public
+    onOpen: open-browser
+
+vscode:
+  extensions:
+    - ms-python.python
+    - littlefoxteam.vscode-python-test-adapter
+    - ms-toolsai.jupyter
+    - ms-toolsai.jupyter-keymap
+    - mechatroner.rainbow-csv
+    - eamodio.gitlens
+    - KevinRose.vsc-python-indent
+    - akosyakov.gitpod-monitor
+    - ms-toolsai.jupyter-renderers
+
